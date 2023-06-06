@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
-import { getRandomNews } from "@/lib/news/news-scraper";
+import { getRandomNews } from "@/lib/news/newsScraper";
 
 export async function GET(request: Request) {
   try {
@@ -13,3 +13,5 @@ export async function GET(request: Request) {
     return handleError(error);
   }
 }
+
+export const revalidate = 0;

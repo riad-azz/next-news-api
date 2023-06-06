@@ -1,6 +1,11 @@
-export const cleanseHtmlTags = (text: string) => {
-  const cleanedText = text.replace(/<.*?>/g, "");
-  return cleanedText;
+export const removeEmptyLines = (text: string) => text.replace(/\n/g, "");
+
+export const cleanseHtmlTags = (text: string) => text.replace(/<.*?>/g, "");
+
+export const cleanseText = (text: string) => {
+  let cleanText = cleanseHtmlTags(text);
+  cleanText = removeEmptyLines(cleanText);
+  return cleanText.trim();
 };
 
 export const isLink = (link: string) => {

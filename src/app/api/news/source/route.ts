@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
-import { getSourceNews } from "@/lib/news/news-scraper";
+import { getSourceNews } from "@/lib/news/newsScraper";
 import { BadRequest } from "@/exceptions/server";
 
 export async function GET(request: Request) {

@@ -2,7 +2,7 @@ import { AnyNode, Cheerio, load } from "cheerio";
 import { newsFeeds } from "./constants";
 import { findElement, findChild } from "@/lib/utils/cheerio";
 import { BadRequest } from "@/exceptions/server";
-import { cleanseHtmlTags, isLink } from "@/lib/utils";
+import { isLink, cleanseText, cleanseHtmlTags } from "@/lib/utils";
 
 const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const titleElement = findChild(itemElement, "title");
@@ -24,7 +24,7 @@ const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const publishDate = pubDateElement.text();
   // Optional article info
   const descriptionElement = findChild(itemElement, "description");
-  const description = cleanseHtmlTags(descriptionElement?.text() ?? "");
+  const description = cleanseText(descriptionElement?.text() ?? "");
 
   const article: Article = {
     title,
@@ -43,6 +43,7 @@ export const getNewsFromRSS = async (url: string): Promise<Article[]> => {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0",
     },
+    cache: "no-store",
   });
 
   if (response.status !== 200) {
