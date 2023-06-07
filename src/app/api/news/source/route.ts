@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
 import { getSourceNews } from "@/lib/news/newsScraper";
-import { validateSource } from "@/lib/utils/news";
+import { validateSource } from "@/lib/news/helpers";
 
 export const runtime = "edge";
 

@@ -1,7 +1,7 @@
 import { load } from "cheerio";
 import { newsSources } from "./constants";
 import { findElement } from "@/lib/utils/cheerio";
-import { articleFromItem } from "@/lib/utils/news";
+import { articleFromItem } from "@/lib/news/helpers";
 import { BadRequest } from "@/exceptions/server";
 
 export const fetchNewsFromRSS = async (url: string): Promise<Article[]> => {
