@@ -70,7 +70,7 @@ export const getRandomNews = async (): Promise<Article[]> => {
   const source = newsSources[sourceIndex];
 
   try {
-    const articles = await fetchNewsFromRSS(source.name);
+    const articles = await fetchNewsFromRSS(source.url);
     return articles;
   } catch (error: any) {
     console.log(
