@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
 import { getRandomNews } from "@/lib/news/newsScraper";
 
+export const runtime = "edge";
+
 export async function GET(request: Request) {
   try {
     const articles = await getRandomNews();

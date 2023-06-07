@@ -1,42 +1,10 @@
-import { AnyNode, Cheerio, load } from "cheerio";
-import { newsFeeds } from "./constants";
-import { findElement, findChild } from "@/lib/utils/cheerio";
+import { load } from "cheerio";
+import { newsSources } from "./constants";
+import { findElement } from "@/lib/utils/cheerio";
+import { articleFromItem } from "@/lib/utils/news";
 import { BadRequest } from "@/exceptions/server";
-import { isLink, cleanseText, cleanseHtmlTags } from "@/lib/utils";
 
-const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
-  const titleElement = findChild(itemElement, "title");
-  const linkElement =
-    findChild(itemElement, "link") ||
-    findChild(itemElement, "url") ||
-    findChild(itemElement, "guid ");
-  const pubDateElement = findChild(itemElement, "pubDate");
-
-  if (!titleElement || !linkElement || !pubDateElement) {
-    console.log("Invalid item Skipped in RSS feed");
-    return null;
-  }
-
-  // Main article info
-  const title = cleanseHtmlTags(titleElement.text().trim());
-  const link = linkElement.text().trim();
-  if (!isLink(link)) return null;
-  const publishDate = pubDateElement.text();
-  // Optional article info
-  const descriptionElement = findChild(itemElement, "description");
-  const description = cleanseText(descriptionElement?.text() ?? "");
-
-  const article: Article = {
-    title,
-    link,
-    description,
-    publishDate,
-  };
-
-  return article;
-};
-
-export const getNewsFromRSS = async (url: string): Promise<Article[]> => {
+export const fetchNewsFromRSS = async (url: string): Promise<Article[]> => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
@@ -63,52 +31,50 @@ export const getNewsFromRSS = async (url: string): Promise<Article[]> => {
 
   const articles: Article[] = [];
 
-  items.each((index, element) => {
+  for (let i = 0; i < items.length; i++) {
+    const element = items.eq(i);
     const itemElement = $(element);
 
     const article = articleFromItem(itemElement);
-    if (!article) return;
+    if (!article) continue;
 
     articles.push(article);
-  });
+    if (articles.length >= 20) break;
+  }
 
   return articles;
 };
 
-export const getSourceNews = async (source: string): Promise<Article[]> => {
-  const feedFilter = newsFeeds.filter(
-    (feed) => feed.short === source.toUpperCase()
+export const getSourceNews = async (sourceName: string): Promise<Article[]> => {
+  const source = newsSources.find(
+    (src) => src.short === sourceName.toUpperCase()
   );
 
-  if (feedFilter.length === 0) {
-    throw new BadRequest(`Invalid source`);
+  if (!source) {
+    throw new BadRequest(`Invalid source name`);
   }
 
-  const feed = feedFilter[0];
-  const feedUrl = feed.url;
-
   try {
-    const articles = await getNewsFromRSS(feedUrl);
+    const articles = await fetchNewsFromRSS(source.url);
     return articles;
   } catch (error: any) {
     console.log(
-      `getNewsSource failed: for ${source}, reason: ${error.message}`
+      `getNewsSource failed: for ${source.name}, reason: ${error.message}`
     );
     return [];
   }
 };
 
 export const getRandomNews = async (): Promise<Article[]> => {
-  const feedIndex = Math.floor(Math.random() * newsFeeds.length);
-  const feed = newsFeeds[feedIndex];
-  const feedUrl = feed.url;
+  const sourceIndex = Math.floor(Math.random() * newsSources.length);
+  const source = newsSources[sourceIndex];
 
   try {
-    const articles = await getNewsFromRSS(feedUrl);
+    const articles = await fetchNewsFromRSS(source.name);
     return articles;
   } catch (error: any) {
     console.log(
-      `getRandomNews failed: for ${feedUrl}, reason: ${error.message}`
+      `getRandomNews failed: for ${source.name}, reason: ${error.message}`
     );
     return [];
   }

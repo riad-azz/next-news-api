@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
 import { getSourceNews } from "@/lib/news/newsScraper";
-import { BadRequest } from "@/exceptions/server";
+import { validateSource } from "@/lib/utils/news";
+
+export const runtime = "edge";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const sourceName: string | null = searchParams.get("name");
-  console.log(sourceName);
+  const source: string | null = searchParams.get("name");
+  let sourceName: string;
 
-  if (!sourceName) {
-    return handleError(new BadRequest("Source is required"));
+  try {
+    sourceName = validateSource(source);
+  } catch (error: any) {
+    return handleError(error);
   }
 
   try {
