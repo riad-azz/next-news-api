@@ -52,6 +52,7 @@ export const getSourceNews = async (sourceName: string): Promise<Article[]> => {
   );
 
   if (!source) {
+    console.log(`${sourceName} source doesn't exist`);
     throw new BadRequest(`Invalid source name`);
   }
 

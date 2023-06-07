@@ -14,6 +14,7 @@ export async function GET(request: Request) {
     }
     return NextResponse.json({ articles });
   } catch (error: any) {
+    console.log("GET /api/news Failed", error.message);
     return handleError(error);
   }
 }

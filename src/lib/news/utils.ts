@@ -9,12 +9,14 @@ export const isValidSource = (sourceName: string) =>
 
 export const validateSource = (sourceName: string | null) => {
   if (!sourceName) {
+    console.log(`Source name was not provided`);
     throw new BadRequest("Source name is required");
   }
 
   const upperSourceName = sourceName.toUpperCase();
   const isValid = isValidSource(upperSourceName);
   if (!isValid) {
+    console.log(`Invalid source name ${sourceName}`);
     throw new BadRequest("Invalid source name");
   }
 
