@@ -1,11 +1,11 @@
 import { load } from "cheerio";
 import { newsSources } from "./constants";
 import { findElement } from "@/lib/utils/cheerio";
-import { articleFromItem } from "@/lib/news/helpers";
+import { articleFromItem } from "@/lib/news/utils";
 import { BadRequest } from "@/exceptions/server";
 
-export const fetchNewsFromRSS = async (url: string): Promise<Article[]> => {
-  const response = await fetch(url, {
+export const fetchNewsFromRSS = async (source: Source): Promise<Article[]> => {
+  const response = await fetch(source.url, {
     method: "GET",
     headers: {
       "User-Agent":
@@ -15,7 +15,7 @@ export const fetchNewsFromRSS = async (url: string): Promise<Article[]> => {
   });
 
   if (response.status !== 200) {
-    console.log(`Bad response from RSS feed ${url}`);
+    console.log(`Bad response from RSS feed ${source.url}`);
     return [];
   }
 
@@ -25,7 +25,7 @@ export const fetchNewsFromRSS = async (url: string): Promise<Article[]> => {
   const items = findElement($, "item");
 
   if (!items) {
-    console.log(`No items found in ${url}`);
+    console.log(`No items found in ${source.url}`);
     return [];
   }
 
@@ -35,9 +35,10 @@ export const fetchNewsFromRSS = async (url: string): Promise<Article[]> => {
     const element = items.eq(i);
     const itemElement = $(element);
 
-    const article = articleFromItem(itemElement);
-    if (!article) continue;
+    const baseArticle = articleFromItem(itemElement);
+    if (!baseArticle) continue;
 
+    const article: Article = { source: source.name, ...baseArticle };
     articles.push(article);
     if (articles.length >= 20) break;
   }
@@ -55,7 +56,7 @@ export const getSourceNews = async (sourceName: string): Promise<Article[]> => {
   }
 
   try {
-    const articles = await fetchNewsFromRSS(source.url);
+    const articles = await fetchNewsFromRSS(source);
     return articles;
   } catch (error: any) {
     console.log(
@@ -70,7 +71,7 @@ export const getRandomNews = async (): Promise<Article[]> => {
   const source = newsSources[sourceIndex];
 
   try {
-    const articles = await fetchNewsFromRSS(source.url);
+    const articles = await fetchNewsFromRSS(source);
     return articles;
   } catch (error: any) {
     console.log(

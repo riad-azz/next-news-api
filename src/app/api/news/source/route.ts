@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
 import { getSourceNews } from "@/lib/news/newsScraper";
-import { validateSource } from "@/lib/news/helpers";
+import { validateSource } from "@/lib/news/utils";
+import { ServerException } from "@/exceptions/server";
 
 export const runtime = "edge";
 
@@ -19,9 +20,10 @@ export async function GET(request: Request) {
   try {
     const articles = await getSourceNews(sourceName);
     if (articles.length === 0) {
-      return NextResponse.json({ success: false, articles });
+      const error = new ServerException("No articles found, please try again.");
+      return handleError(error);
     }
-    return NextResponse.json({ success: true, articles });
+    return NextResponse.json({ articles });
   } catch (error: any) {
     return handleError(error);
   }

@@ -1,4 +1,4 @@
-export const newsSources = [
+export const newsSources: Source[] = [
   {
     short: "NYT",
     name: "New York Times",

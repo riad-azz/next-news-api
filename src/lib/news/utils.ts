@@ -4,14 +4,17 @@ import { isLink, cleanseText, cleanseHtmlTags } from "@/lib/utils";
 import { newsSources } from "@/lib/news/constants";
 import { BadRequest } from "@/exceptions/server";
 
+export const isValidSource = (sourceName: string) =>
+  !!newsSources.find((src) => src.short === sourceName.toUpperCase());
+
 export const validateSource = (sourceName: string | null) => {
   if (!sourceName) {
     throw new BadRequest("Source name is required");
   }
 
   const upperSourceName = sourceName.toUpperCase();
-  const source = newsSources.find((src) => src.short === upperSourceName);
-  if (!source) {
+  const isValid = isValidSource(upperSourceName);
+  if (!isValid) {
     throw new BadRequest("Invalid source name");
   }
 
@@ -38,14 +41,15 @@ export const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const publishDate = pubDateElement.text();
   // Optional article info
   const descriptionElement = findChild(itemElement, "description");
-  const description = cleanseText(descriptionElement?.text() ?? "");
+  const descElementText = descriptionElement?.text();
+  const description = !!descElementText ? cleanseText(descElementText) : "";
 
-  const article: Article = {
+  const baseArticle: BaseArticle = {
     title,
     link,
     description,
     publishDate,
   };
 
-  return article;
+  return baseArticle;
 };
