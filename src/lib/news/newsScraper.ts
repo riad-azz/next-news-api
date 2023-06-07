@@ -2,17 +2,23 @@ import { load } from "cheerio";
 import { newsSources } from "./constants";
 import { findElement } from "@/lib/utils/cheerio";
 import { articleFromItem } from "@/lib/news/utils";
-import { BadRequest } from "@/exceptions/server";
+import { BadRequest, TimeoutException } from "@/exceptions/server";
 
 export const fetchNewsFromRSS = async (source: Source): Promise<Article[]> => {
-  const response = await fetch(source.url, {
-    method: "GET",
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0",
-    },
-    cache: "no-store",
-  });
+  let response;
+  try {
+    response = await fetch(source.url, {
+      method: "GET",
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0",
+      },
+      cache: "no-store",
+    });
+  } catch (error: any) {
+    console.log(`Failed to fetch RSS feed ${source.name}, ${error.message}`);
+    throw new TimeoutException();
+  }
 
   if (response.status !== 200) {
     console.log(`Bad response from RSS feed ${source.url}`);
@@ -39,8 +45,13 @@ export const fetchNewsFromRSS = async (source: Source): Promise<Article[]> => {
     if (!baseArticle) continue;
 
     const article: Article = { source: source.name, ...baseArticle };
+
     articles.push(article);
     if (articles.length >= 20) break;
+  }
+
+  if (articles.length === 0) {
+    console.log(`No valid articles found from ${source.url}`);
   }
 
   return articles;

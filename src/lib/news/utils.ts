@@ -32,7 +32,6 @@ export const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const pubDateElement = findChild(itemElement, "pubDate");
 
   if (!titleElement || !linkElement || !pubDateElement) {
-    console.log("Invalid item Skipped in RSS feed");
     return null;
   }
 
@@ -40,7 +39,7 @@ export const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const title = cleanseHtmlTags(titleElement.text().trim());
   const link = linkElement.text().trim();
   if (!isLink(link)) return null;
-  const publishDate = pubDateElement.text();
+  const pubDate = pubDateElement.text();
   // Optional article info
   const descriptionElement = findChild(itemElement, "description");
   const descElementText = descriptionElement?.text();
@@ -50,7 +49,7 @@ export const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
     title,
     link,
     description,
-    publishDate,
+    pubDate,
   };
 
   return baseArticle;

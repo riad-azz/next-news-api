@@ -45,19 +45,9 @@ export const newsSources: Source[] = [
     url: "https://www.latimes.com/local/rss2.0.xml",
   },
   {
-    short: "AU-DT",
-    name: "Latest News and News Headlines - Daily Telegraph",
-    url: "https://www.dailytelegraph.com.au/news/breaking-news/rss",
-  },
-  {
     short: "AU-SMH",
     name: "Sydney Morning Herald - Latest News",
-    url: "Sydney Morning Herald - Latest News",
-  },
-  {
-    short: "AU-HS",
-    name: "Latest News and News Headlines - Herald Sun",
-    url: "https://www.heraldsun.com.au/news/breaking-news/rss",
+    url: "https://www.smh.com.au/rss/feed.xml",
   },
   {
     short: "AU-ABC",
@@ -68,11 +58,6 @@ export const newsSources: Source[] = [
     short: "AU-TA",
     name: "The Age - Latest News",
     url: "https://www.theage.com.au/rss/feed.xml",
-  },
-  {
-    short: "AU-CM",
-    name: "The Courier Mail",
-    url: "https://www.couriermail.com.au/rss",
   },
   {
     short: "AU-PN",
@@ -103,11 +88,6 @@ export const newsSources: Source[] = [
     short: "AU-ID",
     name: "InDaily",
     url: "https://indaily.com.au/feed/",
-  },
-  {
-    short: "AU-TM",
-    name: "The Mercury",
-    url: "https://www.themercury.com.au/rss",
   },
   {
     short: "AU-C",

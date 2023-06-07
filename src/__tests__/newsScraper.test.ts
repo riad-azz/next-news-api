@@ -1,3 +1,4 @@
+import { newsSources } from "@/lib/news/constants";
 import {
   fetchNewsFromRSS,
   getRandomNews,
@@ -34,8 +35,19 @@ describe("getRandomNews", () => {
 });
 
 describe("isValidSource", () => {
-  it("should return true if the source exists", async () => {
+  it("should return true if the source exists", () => {
     const result = isValidSource("nyt");
     expect(result).toBe(true);
+  });
+});
+
+describe("fetchAllSources", () => {
+  it("should return a list of Articles", async () => {
+    const allSources = [];
+    for (let i = 0; i < newsSources.length; i++) {
+      const articles = await fetchNewsFromRSS(newsSources[i]);
+      allSources.push(articles);
+    }
+    expect(allSources.length === newsSources.length).toBe(true);
   });
 });

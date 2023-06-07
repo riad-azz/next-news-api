@@ -31,3 +31,13 @@ export class RatelimitException extends Exception {
     super(message, code);
   }
 }
+
+export class TimeoutException extends Exception {
+  /**
+   * @param message
+   * @param code
+   */
+  constructor(message = "Request timeout, please try again.", code = 408) {
+    super(message, code);
+  }
+}

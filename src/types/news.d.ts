@@ -8,13 +8,9 @@ interface BaseArticle {
   title: string;
   link: string;
   description?: string;
-  publishDate: string;
+  pubDate?: string;
 }
 
-interface Article {
+interface Article extends BaseArticle {
   source: string;
-  title: string;
-  link: string;
-  description?: string;
-  publishDate: string;
 }
