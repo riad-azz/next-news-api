@@ -1,4 +1,4 @@
-# Simple News API Example Using RSS
+# Simple News API Using RSS - Next.js
 
 This project is a straightforward news API that utilizes RSS to retrieve and deliver news content in the form of JSON. The API functions by fetching news articles from various sources through their respective RSS feeds and converting them into a structured JSON format for easy integration and consumption by other applications.
 
