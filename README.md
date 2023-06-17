@@ -55,9 +55,11 @@ curl -i "https://riad-news-api.vercel.app/api/news/source?name=US-FN"
 
 ![Custom news source endpoint preview](https://github.com/riad-azz/readme-storage/blob/main/next-news-api/custom-source-preview.png?raw=true)
 
+## Data Sources && Available RSS Feeds
+
 Here is a list of the available sources and their short code :
 
-(You can find and edit the list of all current available RSS feeds in `src/lib/news/constants.ts`)
+*You can find and edit the list of all current available RSS feeds in `src/lib/news/constants.ts`*
 
 | Name                                      | Short Code |
 | ----------------------------------------- | ---------- |
