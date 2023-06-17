@@ -2,15 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getClientIp } from "./lib/utils";
 
 const isStaticPath = (path: string) => {
-  return (
-    path.startsWith("/_next") ||
-    path.startsWith("/images") ||
-    path.startsWith("/favicon.ico") ||
-    path.startsWith("/og.png") ||
-    path.startsWith("/robot.txt") ||
-    path.startsWith("/site.webmanifest") ||
-    path.startsWith("/google0888728b41583a8e.html")
-  );
+  return path.startsWith("/_next") || path.startsWith("/favicon.ico");
 };
 
 export async function middleware(request: NextRequest) {
@@ -22,11 +14,12 @@ export async function middleware(request: NextRequest) {
   }
 
   if (requestPath.startsWith("/api")) {
-    const notLimited = true;
-    if (!notLimited) {
+    // TODO: implement rate limiting
+    const isRatelimited = false;
+    if (isRatelimited) {
       return NextResponse.json(
         {
-          error: "Too many requests you have been banned for 24 hours.",
+          error: "Too many requests, please try again later.",
         },
         { status: 429 }
       );
