@@ -6,13 +6,13 @@ You can use the API here : [riad-news-api.vercel.app/api/news](https://riad-news
 
 ## Installation Instructions
 
-First your can download the repository zip file or clone the repository:
+1. download the repository zip file or clone the repository:
 
 ```bash
 git clone https://github.com/riad-azz/next-news-api.git
 ```
 
-Install the dependencies by running the follow commands
+2. Install the dependencies by running the following commands
 
 ```bash
 cd next-news-api
@@ -22,7 +22,7 @@ cd next-news-api
 npm install
 ```
 
-Running the server
+3. Running the server
 
 ```bash
 # Development
