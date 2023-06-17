@@ -42,6 +42,7 @@ Open [http://localhost:3000/api](http://localhost:3000/api) with your browser to
 * Retrieve news articles from various sources effortlessly by utilizing the `/api/news` endpoint for a random source selection (20 articles max per request).
 
 ```bash
+# GET Request
 curl -i "https://riad-news-api.vercel.app/api/news"
 ```
 
@@ -50,6 +51,7 @@ curl -i "https://riad-news-api.vercel.app/api/news"
 * You can also customize news retrieval leveraging the `/api/news/source` endpoint. Simply include the desired source short code as the name parameter to fetch news specifically from your selected source (20 articles max per request).
 
 ```bash
+# GET Request
 curl -i "https://riad-news-api.vercel.app/api/news/source?name=US-FN"
 ```
 
