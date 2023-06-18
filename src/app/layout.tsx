@@ -1,10 +1,8 @@
-import { ABeeZee as MainFont } from "next/font/google";
+import { Inter as MainFont } from "next/font/google";
+import { mainMetadata } from "@/configs/seo";
 import "@/styles/globals.css";
 
-export const metadata = {
-  title: "Next News API",
-  description: "News API made by riad-azz",
-};
+export const metadata = mainMetadata;
 
 const mainFont = MainFont({
   weight: "400",
@@ -18,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={mainFont.className}>
-      <body className="bg-black text-gray-300">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
