@@ -7,7 +7,7 @@ import {
 import { isValidSource } from "@/lib/news/utils";
 
 const source: Source = {
-  short: "NYT",
+  code: "NYT",
   name: "New York Times",
   url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
 };

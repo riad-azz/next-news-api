@@ -49,7 +49,7 @@ export default function Home() {
 
           <section>
             <h2 className="mb-3 text-2xl font-semibold">
-              Endpoint: /api/news/source?name={"{SOURCE}"}
+              Endpoint: /api/news/source?code={"{SHORT_CODE}"}
             </h2>
             <p className="mb-1">
               This endpoint returns the latest news articles from a selected RSS
@@ -58,8 +58,8 @@ export default function Home() {
             <p className="mb-2">Parameters:</p>
             <ul className="mb-4 list-inside list-disc">
               <li>
-                <code className="rounded bg-gray-200 px-2 py-1">name</code>: The
-                short code name of the source.
+                <code className="rounded bg-gray-200 px-2 py-1">code</code>: The
+                short code of the source.
               </li>
             </ul>
             <p className="mb-3">
@@ -75,7 +75,7 @@ export default function Home() {
             <h3 className="my-2 text-xl font-semibold">Request</h3>
             <pre className="rounded bg-gray-100 p-2">
               <code>
-                GET https://riad-news-api.vercel.app/api/news/source?name=US-FN
+                GET https://riad-news-api.vercel.app/api/news/source?code=US-FN
               </code>
             </pre>
             <h3 className="my-2 text-xl font-semibold">Response</h3>

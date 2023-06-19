@@ -8,7 +8,7 @@ export const runtime = "edge";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const source: string | null = searchParams.get("name");
+  const source: string | null = searchParams.get("code");
   let sourceName: string;
 
   try {

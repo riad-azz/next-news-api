@@ -1,5 +1,5 @@
 interface Source {
-  short: string;
+  code: string;
   name: string;
   url: string;
 }

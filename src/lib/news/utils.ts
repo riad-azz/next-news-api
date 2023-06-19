@@ -5,19 +5,19 @@ import { newsSources } from "@/lib/news/constants";
 import { BadRequest } from "@/exceptions/server";
 
 export const isValidSource = (sourceName: string) =>
-  !!newsSources.find((src) => src.short === sourceName.toUpperCase());
+  !!newsSources.find((src) => src.code === sourceName.toUpperCase());
 
 export const validateSource = (sourceName: string | null) => {
   if (!sourceName) {
-    console.log(`Source name was not provided`);
-    throw new BadRequest("Source name is required");
+    console.log(`Source code was not provided`);
+    throw new BadRequest("Source code is required");
   }
 
   const upperSourceName = sourceName.toUpperCase();
   const isValid = isValidSource(upperSourceName);
   if (!isValid) {
-    console.log(`Invalid source name ${sourceName}`);
-    throw new BadRequest("Invalid source name");
+    console.log(`Invalid source code ${sourceName}`);
+    throw new BadRequest("Invalid source code");
   }
 
   return upperSourceName;
@@ -28,8 +28,9 @@ export const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const linkElement =
     findChild(itemElement, "link") ||
     findChild(itemElement, "url") ||
-    findChild(itemElement, "guid ");
-  const pubDateElement = findChild(itemElement, "pubDate");
+    findChild(itemElement, "guid");
+  const pubDateElement =
+    findChild(itemElement, "pubDate") || findChild(itemElement, "dc\\:date");
 
   if (!titleElement || !linkElement || !pubDateElement) {
     return null;
@@ -39,7 +40,7 @@ export const articleFromItem = (itemElement: Cheerio<AnyNode>) => {
   const title = cleanseHtmlTags(titleElement.text().trim());
   const link = linkElement.text().trim();
   if (!isLink(link)) return null;
-  const pubDate = pubDateElement.text();
+  const pubDate = pubDateElement.text().trim();
   // Optional article info
   const descriptionElement = findChild(itemElement, "description");
   const descElementText = descriptionElement?.text();

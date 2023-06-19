@@ -39,7 +39,9 @@ Open [http://localhost:3000/](http://localhost:3000/) with your browser to see t
 
 ## Usage Examples
 
-* Retrieve news articles from various sources effortlessly by utilizing the `/api/news` endpoint for a random source selection (20 articles max per request).
+### Endpoint : /api/news
+
+Retrieve news articles from various sources effortlessly by utilizing the `/api/news` endpoint for a random source selection (20 articles max per request).
 
 ```bash
 # GET Request
@@ -48,11 +50,13 @@ curl -i "https://riad-news-api.vercel.app/api/news"
 
 ![Random news source endpoint preview](https://github.com/riad-azz/readme-storage/blob/main/next-news-api/random-source-preview.png?raw=true)
 
-* You can also customize news retrieval leveraging the `/api/news/source` endpoint. Simply include the desired source short code as the name parameter to fetch news specifically from your selected source (20 articles max per request).
+### Endpoint : /api/news/source?code={SHORT_CODE}
+
+You can select a specific news source by simply including the desired source short code as the code parameter (20 articles max per request).
 
 ```bash
 # GET Request
-curl -i "https://riad-news-api.vercel.app/api/news/source?name=US-FN"
+curl -i "https://riad-news-api.vercel.app/api/news/source?code=US-FN"
 ```
 
 ![Custom news source endpoint preview](https://github.com/riad-azz/readme-storage/blob/main/next-news-api/custom-source-preview.png?raw=true)
@@ -85,6 +89,17 @@ Here is a list of the available sources and their short code :
 | InDaily                                   | AU-ID      |
 | Crikey                                    | AU-C       |
 | Michael West                              | AU-MW      |
+| CBC News                                  | CA-CBCN    |
+| CTV News                                  | CA-CTVN    |
+| Financial Post                            | CA-FP      |
+| National Post                             | CA-NP      |
+| Ottawa Citizen                            | CA-OC      |
+| The Province                              | CA-TP      |
+| Toronto Star                              | CA-TST     |
+| Toronto Sun                               | CA-TSU     |
+| ZEIT ONLINE                               | DE-ZO      |
+| FOCUS Online                              | DE-FO      |
+| Deutsche Welle                            | DE-DW      |
 
 > The short code is simply the country code of the source then the first letter of each word in their name (INTER is used instead of the country code if the RSS is not region based).
 

@@ -13,11 +13,10 @@ export const fetchNewsFromRSS = async (source: Source): Promise<Article[]> => {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0",
       },
-      cache: "no-store",
     });
   } catch (error: any) {
     console.log(`Failed to fetch RSS feed ${source.name}, ${error.message}`);
-    throw new TimeoutException();
+    return [];
   }
 
   if (response.status !== 200) {
@@ -59,7 +58,7 @@ export const fetchNewsFromRSS = async (source: Source): Promise<Article[]> => {
 
 export const getSourceNews = async (sourceName: string): Promise<Article[]> => {
   const source = newsSources.find(
-    (src) => src.short === sourceName.toUpperCase()
+    (src) => src.code === sourceName.toUpperCase()
   );
 
   if (!source) {
