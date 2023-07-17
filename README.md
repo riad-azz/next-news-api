@@ -43,23 +43,62 @@ Open [http://localhost:3000/](http://localhost:3000/) with your browser to see t
 
 Retrieve news articles from various sources effortlessly by utilizing the `/api/news` endpoint for a random source selection (20 articles max per request).
 
+- GET Request
+
 ```bash
-# GET Request
 curl -i "https://riad-news-api.vercel.app/api/news"
 ```
 
-![Random news source endpoint preview](https://github.com/riad-azz/readme-storage/blob/main/next-news-api/random-source-preview.png?raw=true)
+- Successful GET Request
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "source": "Source Name",
+            "title": "Article title",
+            "link": "https://example.com/article-slug-97",
+            "description": "Article description",
+            "pubDate": "Article publish date (its different depending on the source)"
+        },
+        ...
+    ]
+}
+```
+
+- Error GET Request
+
+```json
+{
+    "status": "error",
+    "message": "error message"
+}
+```
 
 ### Endpoint : /api/news/source?code={SHORT_CODE}
 
 You can select a specific news source by simply including the desired source short code as the code parameter (20 articles max per request).
 
 ```bash
-# GET Request
 curl -i "https://riad-news-api.vercel.app/api/news/source?code=US-FN"
 ```
 
-![Custom news source endpoint preview](https://github.com/riad-azz/readme-storage/blob/main/next-news-api/custom-source-preview.png?raw=true)
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "source": "Fox News",
+            "title": "Article title",
+            "link": "https://foxnews.com/category/article-slug-title--example-44",
+            "description": "Article description",
+            "pubDate": "Mon, 17 Jul 2023 12:15:01 ED"
+        },
+        ...
+    ]
+}
+```
 
 ## Data Sources & Available RSS Feeds
 

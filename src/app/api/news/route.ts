@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { handleError } from "@/exceptions";
 import { getRandomNews } from "@/lib/news/newsScraper";
 import { ServerException } from "@/exceptions/server";
+import { makeSuccessResponse } from "@/lib/utils";
 
 export const runtime = "edge";
 
@@ -12,7 +13,8 @@ export async function GET(request: Request) {
       const error = new ServerException("No articles found, please try again.");
       return handleError(error);
     }
-    return NextResponse.json({ articles });
+    const successResponse = makeSuccessResponse(articles);
+    return NextResponse.json(successResponse, { status: 200 });
   } catch (error: any) {
     console.log("GET /api/news Failed", error.message);
     return handleError(error);

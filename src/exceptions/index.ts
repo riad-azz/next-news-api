@@ -1,3 +1,5 @@
+import { makeErrorResponse } from "@/lib/utils";
+import { ErrorResponse } from "@/types";
 import { NextResponse } from "next/server";
 
 export class Exception extends Error {
@@ -14,12 +16,11 @@ export class Exception extends Error {
 
 export const handleError = (error: any) => {
   if (error instanceof Exception) {
-    return NextResponse.json({ error: error.message }, { status: error.code });
+    const errorResponse = makeErrorResponse(error.message);
+    return NextResponse.json(errorResponse, { status: error.code });
   } else {
     console.error(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    const errorResponse = makeErrorResponse("Internal Server Error");
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 };

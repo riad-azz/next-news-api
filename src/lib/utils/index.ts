@@ -1,3 +1,4 @@
+import { ErrorResponse } from "@/types";
 import { NextRequest } from "next/server";
 
 export const removeEmptyLines = (text: string) => text.replace(/\n/g, "");
@@ -8,6 +9,16 @@ export const cleanseText = (text: string) => {
   let cleanText = cleanseHtmlTags(text);
   cleanText = removeEmptyLines(cleanText);
   return cleanText.trim();
+};
+
+export const makeErrorResponse = (message: string) => {
+  const errorResponse: ErrorResponse = { status: "error", message };
+  return errorResponse;
+};
+
+export const makeSuccessResponse = <T>(data: T) => {
+  const successResponse = { status: "success", data };
+  return successResponse;
 };
 
 export const isLink = (link: string) => {
