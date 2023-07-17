@@ -51,18 +51,22 @@ curl -i "https://riad-news-api.vercel.app/api/news"
 
 - Successful GET Request
 
-```json
+```js
 {
     "status": "success",
     "data": [
         {
             "source": "Source Name",
-            "title": "Article title",
+            "title": "Article title 1",
             "link": "https://example.com/article-slug-97",
             "description": "Article description",
             "pubDate": "Article publish date (its different depending on the source)"
         },
-        ...
+        {
+            "source": "Source Name",
+            "title": "Article title 2",
+            ...
+        }
     ]
 }
 ```
@@ -84,18 +88,22 @@ You can select a specific news source by simply including the desired source sho
 curl -i "https://riad-news-api.vercel.app/api/news/source?code=US-FN"
 ```
 
-```json
+```js
 {
     "status": "success",
     "data": [
         {
             "source": "Fox News",
-            "title": "Article title",
+            "title": "Article title 1",
             "link": "https://foxnews.com/category/article-slug-title--example-44",
             "description": "Article description",
             "pubDate": "Mon, 17 Jul 2023 12:15:01 ED"
         },
-        ...
+        {
+            "source": "Fox News",
+            "title": "Article title 2",
+            ...
+        }
     ]
 }
 ```
